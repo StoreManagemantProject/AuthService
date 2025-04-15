@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  authentication:
+    build: .
+    volumes:
+      - ./authentication:/app
+    working_dir: /app
+    command: sh ./build.sh
+    depends_on:
+      - rabbitmq
+    environment:
+      PRIVATE_KEY: src/main/resources/.private_key.pem
+      PUBLIC_KEY: src/main/resources/.public_key.pem
+      RABBITMQ_HOST: 'rabbitmq'
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+    ports:
+      - "8080:8080"
+    container_name: springboot-app
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
