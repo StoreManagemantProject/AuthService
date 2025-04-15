@@ -72,7 +72,7 @@ public class AuthController {
     @PostMapping("/costumer/login")
     public ResponseEntity<?> costumerLogin(@RequestBody LoginDTO login) {
         try{
-
+            return ResponseEntity.noContent().build();
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }catch (Exception e){

@@ -1,9 +1,8 @@
-package loja.org.example.services;
+package org.example.services;
 
 import org.example.dto.AdminDTO;
 import org.example.dto.StoreManagerDTO;
 import org.example.dto.StoreOwnerDTO;
-import org.example.services.AdminRequester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

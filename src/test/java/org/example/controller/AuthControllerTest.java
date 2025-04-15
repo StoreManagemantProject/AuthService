@@ -1,4 +1,4 @@
-package loja.org.example.controller;
+package org.example.controller;
 
 import org.example.configuration.JwtTokenProvider;
 import org.example.controllers.AuthController;
