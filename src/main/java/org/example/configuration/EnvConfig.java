@@ -6,9 +6,11 @@ import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 
 @Configuration
+@Profile("!test")
 public class EnvConfig {
     private static final Logger logger = LoggerFactory.getLogger(EnvConfig.class);
 
@@ -17,15 +19,12 @@ public class EnvConfig {
         try {
             Dotenv dotenv = Dotenv.configure()
                     .ignoreIfMissing()
+                    .systemProperties()
                     .load();
 
-            dotenv.entries().forEach(entry -> {
-                if (entry.getKey() != null && entry.getValue() != null) {
-                    System.setProperty(entry.getKey(), entry.getValue());
-                }
-            });
+            logger.info("Loaded {} environment variables", dotenv.entries().size());
         } catch (Exception e) {
-            logger.warn("Failed to load .env file - using system properties instead", e);
+            logger.warn("Could not load .env file - using system properties", e);
         }
     }
 }

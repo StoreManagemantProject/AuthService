@@ -2,10 +2,13 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AuthenticationStoreTests {
-
+@SpringBootTest
+@Import(TestConfig.class)
+@ActiveProfiles({"test", "ci"})
+public class AuthenticationStoreTests {
     @Test
     void contextLoads() {
     }
