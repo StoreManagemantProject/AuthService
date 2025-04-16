@@ -1,0 +1,3 @@
+[submodule "main-reepo"]
+	path = main-reepo
+	url = https://github.com/StoreManagemantProject/main-reepo.git
