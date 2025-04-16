@@ -1,26 +1,38 @@
 version: '3.8'
 
 services:
-  authentication:
-    build: .
-    volumes:
-      - ./authentication:/app
-    working_dir: /app
-    command: sh ./build.sh
-    depends_on:
-      - rabbitmq
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"  # AMQP port
+      - "15672:15672"  # Management UI port
     environment:
-      PRIVATE_KEY: src/main/resources/.private_key.pem
-      PUBLIC_KEY: src/main/resources/.public_key.pem
-      RABBITMQ_HOST: 'rabbitmq'
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    container_name: rabbitmq
+
+  authentication:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app  # Only needed for development
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      PRIVATE_KEY: /app/src/main/resources/.private_key.pem
+      PUBLIC_KEY: /app/src/main/resources/.public_key.pem
+      RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
       RABBITMQ_USERNAME: guest
       RABBITMQ_PASSWORD: guest
     ports:
       - "8080:8080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
     container_name: springboot-app
-
-  rabbitmq:
-    image: rabbitmq
-    ports:
-      - "5672:5672"

@@ -32,13 +32,8 @@ public class JwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    public JwtTokenProvider(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-    private final String issuer = "loja";
+    private final String issuer = "store_app";
 
 
     @Value("${PUBLIC_KEY}")

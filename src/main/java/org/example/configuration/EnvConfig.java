@@ -3,23 +3,29 @@ package org.example.configuration;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+
 
 @Configuration
 public class EnvConfig {
+    private static final Logger logger = LoggerFactory.getLogger(EnvConfig.class);
 
     @PostConstruct
     public void loadDotenv() {
-        Dotenv dotenv = Dotenv.configure()
-                .ignoreIfMalformed()
-                .ignoreIfMissing()
-                .load();
+        try {
+            Dotenv dotenv = Dotenv.configure()
+                    .ignoreIfMissing()
+                    .load();
 
-        String publicKey = dotenv.get("PUBLIC_KEY");
-        String privateKey = dotenv.get("PRIVATE_KEY");
-
-        System.setProperty("PUBLIC_KEY", publicKey);
-        System.setProperty("PRIVATE_KEY", privateKey);
-
+            dotenv.entries().forEach(entry -> {
+                if (entry.getKey() != null && entry.getValue() != null) {
+                    System.setProperty(entry.getKey(), entry.getValue());
+                }
+            });
+        } catch (Exception e) {
+            logger.warn("Failed to load .env file - using system properties instead", e);
+        }
     }
 }
