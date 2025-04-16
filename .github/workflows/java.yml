@@ -50,12 +50,3 @@ jobs:
         run: mvn -B clean verify --file pom.xml
         env:
           MAVEN_OPTS: -Dspring.profiles.active=ci -Dserver.port=0 -Dspring.main.lazy-initialization=true
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: |
-            **/surefire-reports/*
-            **/failsafe-reports/*
