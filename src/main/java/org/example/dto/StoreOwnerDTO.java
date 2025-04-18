@@ -16,6 +16,5 @@ public class StoreOwnerDTO {
     private String password;
     private Set<RoleDTO> role;
     private  String name;
-    private Set<StoreDTO> managedStores;
 
 }

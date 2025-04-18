@@ -21,7 +21,6 @@ public class RabbitConfig {
         return new Queue("user.response.queue");
     }
 
-    // Optional: message converter
     @Bean
     public Jackson2JsonMessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();

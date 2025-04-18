@@ -1,4 +1,3 @@
-// util/Authorization.java
 package org.example.util;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;

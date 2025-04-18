@@ -21,7 +21,7 @@ public class AdminRequester {
     }
     public StoreOwnerDTO getStoreOwnerByEmail(String email) {
         return (StoreOwnerDTO) rabbitTemplate.convertSendAndReceive(
-                "store.request.queue", email
+                "store-owner.request.queue", email
         );
     }
     public StoreManagerDTO  getStoreManagerByEmail(String email) {
